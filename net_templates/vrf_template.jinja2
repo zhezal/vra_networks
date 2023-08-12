@@ -1,0 +1,14 @@
+ip vrf {{ vrf_name }}
+ description {{ vrf_name }}
+ rd {{ rd }}
+ {% for rt_exp in rt_export %}
+ route-target export {{ rt_exp }}
+ {% endfor %}
+ {% for rt_imp in rt_import %}
+ route-target import {{ rt_imp }}
+ {% endfor %}
+ route-target export {{ rd_extended_part }}:10
+ route-target import {{ rd_extended_part }}:10
+exit
+
+

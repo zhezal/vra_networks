@@ -1,0 +1,27 @@
+{% block static_routes %}
+
+ {% if environment == 'TEST' %}
+ip route vrf TEST_PREVIEW_TRANSIT {{ network_ip_and_netmask }} {{ fw_vrf_testprev_intf_address }} name TEST_PREVIEW_TRANSIT_{{ vrf_name }}
+ip route vrf PROD_TRANSIT {{ network_ip_and_netmask }} {{ fw_vrf_transit_intf_address }} name PROD_TRANSIT_{{ vrf_name }}
+
+ {% elif environment == 'PREVIEW' %}
+ip route vrf TEST_PREVIEW_TRANSIT {{ network_ip_and_netmask }} {{ fw_vrf_testprev_intf_address }} name TEST_PREVIEW_TRANSIT_{{ vrf_name }}
+ip route vrf PROD_TRANSIT {{ network_ip_and_netmask }} {{ fw_vrf_transit_intf_address }} name PROD_TRANSIT_{{ vrf_name }}
+  {% endif %}
+
+{% endblock %}
+{% block bgp_address_family_ipv4_vrf_DMZ5X_VRA %}
+
+router bgp 65001
+ address-family ipv4 vrf {{ vrf_name }}
+  network {{ network_ip_and_netmask.split()[0] }} mask {{ network_ip_and_netmask.split()[1] }}
+ exit
+ address-family ipv4 vrf TEST_PREVIEW_TRANSIT
+  network {{ network_ip_and_netmask.split()[0] }} mask {{ network_ip_and_netmask.split()[1] }}
+ exit
+ address-family ipv4 vrf PROD_TRANSIT
+  network {{ network_ip_and_netmask.split()[0] }} mask {{ network_ip_and_netmask.split()[1] }}
+ exit
+exit
+
+{% endblock %}

@@ -1,0 +1,7 @@
+{% if environment == 'TEST' %}
+ip prefix-list VRA_TEST_PL permit {{ subnet_with_prefix_len }}
+{% elif environment == 'PREVIEW' %}
+ip prefix-list VRA_PREVIEW_PL permit {{ subnet_with_prefix_len }}
+{% endif %}
+
+

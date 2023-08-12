@@ -1,0 +1,11 @@
+{% for intf, intf_params_d in dict.items() %}
+ {% set vra_vlan_id = intf_params_d.get("vra_vlan_id") %}
+ {% set allowed_vlans = intf_params_d.get("allowed_vlans") %}
+ {% set intf_mode = intf_params_d.get("intf_mode") %}
+  {% if intf_mode == "trunk" and vra_vlan_id not in allowed_vlans %}
+interface {{ intf }}
+ switchport trunk allowed vlan add {{ vra_vlan_id}}
+exit
+
+  {% endif %}
+{% endfor %}

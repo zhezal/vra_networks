@@ -1,0 +1,9 @@
+vlan {{ vlan_id }}
+ {% if environment == 'TEST' %}
+ name TEST-VRA{{ vlan_id }}
+ {% elif environment == 'PREVIEW' %}
+ name PREVIEW-VRA{{ vlan_id }}
+  {% endif %}
+exit
+
+

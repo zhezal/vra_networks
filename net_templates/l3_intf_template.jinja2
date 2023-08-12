@@ -1,0 +1,8 @@
+interface vlan {{ vlan_id }}
+ description IN_PROD_STATE {{ vrf_name }}
+ ip vrf forwarding {{ vrf_name }}
+ ip address {{ intf_gateway_ip_and_netmask }}
+ no shutdown
+exit
+
+
